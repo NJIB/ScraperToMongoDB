@@ -27,29 +27,31 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Connect to the Mongo DB
-mongoose.connect('mongodb://localhost/unit18Populater', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect('mongodb://localhost/Scraper', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the BBC website
 app.get('/scrape', async function (req, res) {
   // First, we grab the body of the html with axios
-  const response = await axios.get('http://www.echojs.com/');
+  // const response = await axios.get('http://www.echojs.com/');
+
+  const response = await axios.get('https://www.bbc.com/sport/football');
   // Then, we load that into cheerio and save it to $ for a shorthand selector
   const $ = cheerio.load(response.data);
 
   // Now, we grab every h2 within an article tag, and do the following:
-  $('article h2').each(function (i, element) {
-    // Save an empty result object
-    const result = {};
+    $('h3.gs-c-promo-heading__title').each(function (i, element) {
+            // Save an empty result object
+            const result = {};
 
     // Add the text and href of every link, and save them as properties of the result object
-    result.title = $(this)
-      .children('a')
-      .text();
-    result.link = $(this)
-      .children('a')
-      .attr('href');
+      result.title = $(this)
+        .text();
+      result.link = $(this)
+        .closest('a')
+        .attr('href');
+
 
     // Create a new Article using the `result` object built from scraping
     db.Article.create(result)
@@ -62,6 +64,8 @@ app.get('/scrape', async function (req, res) {
         console.log(err);
       });
   });
+
+  console.log(result);
 
   // Send a message to the client
   res.send('Scrape Complete');
@@ -95,7 +99,6 @@ app.get('/api/articles/:id', async function (req, res) {
     })
     .populate('note');
     res.json(data);
-    // res.json(data[0]);
   } catch (err) {
     res.status(500).json({error: {name: err.name, message: err.message}});
   }
