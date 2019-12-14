@@ -11,6 +11,21 @@ $.getJSON('/api/articles', function(data) {
   }
 });
 
+// Click handler for the Submit button
+// $(document).on('click', '#submit', function() {
+
+// console.log("Scrape request made...");
+
+//   $.ajax({
+//     method: 'GET',
+//     url: '/scrape'
+//   })
+//   .then(function(data) {
+//     console.log(data);
+//   });
+// });
+
+
 
 // Whenever someone clicks a p tag
 $(document).on('click', 'p', function() {
@@ -35,6 +50,7 @@ $(document).on('click', 'p', function() {
         $('#notes').append('<textarea id=\'bodyinput\' name=\'body\'></textarea>');
         // A button to submit a new note, with the id of the article saved to it
         $('#notes').append('<button data-id=\'' + data._id + '\' id=\'savenote\'>Save Note</button>');
+        $('#notes').append('<button data-id=\'' + data._id + '\' id=\'deletenote\'>Delete Note</button>');
 
         // If there's a note in the article
         if (data.note) {
@@ -61,6 +77,29 @@ $(document).on('click', '#savenote', function() {
       // Value taken from note textarea
       body: $('#bodyinput').val(),
     },
+  })
+  // With that done
+      .then(function(data) {
+      // Log the response
+        console.log(data);
+        // Empty the notes section
+        $('#notes').empty();
+      });
+
+  // Also, remove the values entered in the input and textarea for note entry
+  $('#titleinput').val('');
+  $('#bodyinput').val('');
+});
+
+// When you click the deletenote button
+$(document).on('click', '#deletenote', function() {
+  // Grab the id associated with the article from the submit button
+  const thisId = $(this).attr('data-id');
+
+  // Run a POST request to change the note, using what's entered in the inputs
+  $.ajax({
+    method: 'GET',
+    url: '/api/notes/' + thisId,
   })
   // With that done
       .then(function(data) {

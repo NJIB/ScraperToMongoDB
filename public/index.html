@@ -1,50 +1,78 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>NJIB - Scraping With Mongoose</title>
-    <style>
-      /* body { background-color: black } */
-      body
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: beige;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="wrapper">
-      <h1><a href="/scrape"></a>NJIB Homework - Scraper</h1>
-      <h2><i>Insert tag line here...</i></h2>
-      <div id="articles"></div>
-      <div id="notes"></div>
+
+<head>
+  <meta charset="UTF-8">
+  <title>BBC Sports News Scraper</title>
+  <style>
+    /* body { background-color: black } */
+    body #wrapper {
+      width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 5%;
+    }
+
+    #articles {
+      display: inline-block;
+      overflow: auto;
+      width: 60%;
+      height: 700px;
+    }
+
+    #notes {
+      float: right;
+      width: 30%;
+    }
+
+    textarea,
+    input {
+      display: block;
+      width: 100%;
+      background-color: beige;
+    }
+
+    input {
+      height: 36px;
+      font-size: 24px;
+    }
+
+    textarea {
+      height: 200px;
+      font-size: 18px;
+    }
+  </style>
+
+  <!-- Link to Bootstrap library -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <!-- Input form -->
+
+  <h1><a href="/scrape"></a>BBC Sports News Scraper</h1>
+  <h2><i>Insert tag line here...</i></h2>
+
+  <form>
+    <div class="form-group">
+      <label>What do you want to search for?</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <!-- <small id="emailHelp" class="form-text text-muted">The app will look for news including this</small> -->
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="app.js"></script>
-  </body>
+    <button type="submit" class="btn btn-primary" id="submit"><a href="/scrape"></a>Submit</button>
+  </form>
+
+
+  <!-- Content divs -->
+  <div id="wrapper">
+    <div id="articles"></div>
+    <div id="notes"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+
 </html>
