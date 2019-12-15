@@ -4,7 +4,7 @@ $.getJSON('/api/articles', function(data) {
   for (let i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     $('#articles').append(`
-    <p style="cursor:pointer" data-id="${data[i]._id}">${data[i].title}<br />
+    <p style="cursor:pointer" data-id="${data[i]._id}">${data[i].title}
     <a href="${data[i].link}" target="_blank">&#9758;</a>
     </p>
     `);
@@ -12,18 +12,18 @@ $.getJSON('/api/articles', function(data) {
 });
 
 // Click handler for the Submit button
-// $(document).on('click', '#submit', function() {
+$(document).on('click', '#submit', function() {
 
-// console.log("Scrape request made...");
+console.log("Scrape request made...");
 
-//   $.ajax({
-//     method: 'GET',
-//     url: '/scrape'
-//   })
-//   .then(function(data) {
-//     console.log(data);
-//   });
-// });
+  $.ajax({
+    method: 'GET',
+    url: '/scrape'
+  })
+  .then(function(data) {
+    console.log(data);
+  });
+});
 
 
 
@@ -43,14 +43,16 @@ $(document).on('click', 'p', function() {
       .then(function(data) {
         console.log(data);
         // The title of the article
-        $('#notes').append('<h2>' + data.title + '</h2>');
+        $('#notes').append('<h4>' + data.title + '</h4>');
         // An input to enter a new title
         $('#notes').append('<input id=\'titleinput\' name=\'title\' >');
         // A textarea to add a new note body
         $('#notes').append('<textarea id=\'bodyinput\' name=\'body\'></textarea>');
         // A button to submit a new note, with the id of the article saved to it
-        $('#notes').append('<button data-id=\'' + data._id + '\' id=\'savenote\'>Save Note</button>');
-        $('#notes').append('<button data-id=\'' + data._id + '\' id=\'deletenote\'>Delete Note</button>');
+        $('#notes').append('<button class="btn btn-primary" data-id=\'' + data._id + '\' id=\'savenote\'>Save Note</button>');
+        $('#notes').append('  ');
+        //NJIB This is assigning the article id, not the note id - to be fixed
+        $('#notes').append('<button class="btn btn-danger" data-id=\'' + data._id + '\' id=\'deletenote\'>Delete Note</button>');
 
         // If there's a note in the article
         if (data.note) {
@@ -98,7 +100,7 @@ $(document).on('click', '#deletenote', function() {
 
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
-    method: 'GET',
+    method: 'DELETE',
     url: '/api/notes/' + thisId,
   })
   // With that done

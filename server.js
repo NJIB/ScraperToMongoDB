@@ -27,15 +27,17 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Connect to the Mongo DB
-mongoose.connect('mongodb://localhost/Scraper2', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+// mongoose.connect('mongodb://localhost/Scraper2', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/Scraper2";
+mongoose.connect(MONGODB_URI);
+
 
 // Routes
 
 // A GET route for scraping the BBC website
 app.get('/scrape', async function (req, res) {
   // First, we grab the body of the html with axios
-
-  console.log("SCRAPING!!!");
 
   // const response = await axios.get('https://www.bbc.com/sport/formula1');
   const response = await axios.get('https://www.bbc.com/sport/football');
@@ -100,11 +102,6 @@ app.get('/api/articles', async function (req, res) {
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get('/api/articles/:id', async function (req, res) {
-  // TODO
-  // ====
-  // Finish the route so it finds one article using the req.params.id,
-  // and run the populate method with "note",
-  // then responds with the article with the note included
   const id = req.params.id;
   try {
     const data = await db.Article.findOne({
@@ -120,12 +117,6 @@ app.get('/api/articles/:id', async function (req, res) {
 
 // Route for saving/updating an Article's associated Note
 app.post('/api/articles/:id', async function (req, res) {
-  // TODO
-  // ====
-  // save the new note that gets posted to the Notes collection
-  // then find an article from the req.params.id
-  // and update it's "note" property with the _id of the new note
-  // then responds with the article with the note included
   try {
     const dbNote = await db.Note.create(req.body);
 
@@ -142,19 +133,30 @@ app.post('/api/articles/:id', async function (req, res) {
 });
 
 // Route for deleting a specific Note by id
-app.get('/api/notes/:id', async function (req, res) {
-  const id = req.params.id;
+
+app.delete('/api/notes/:id', async function (req, res) {
   try {
-    const data = await db.Note.remove({
-      //If used .find, will return an array (and data returned would need to be indexed (e.g. data[0], as shown below))
-      _id: id
-    })
-      // .populate('note');
-    res.json(data);
+    const dbNote = req.params.id;
+    console.log("dbNote: ", dbNote);
+
+    const dbArticle2 = await db.Article.findOne(
+      { _id: req.params.id }
+    )
+    console.log("dbArticle2:", dbArticle2);
+
+    const NoteId = dbArticle2.note;
+
+    const dbDeletedNote = await db.Note.remove(
+      { _id: NoteId },
+      { justOne: true }
+    )
+
+    res.json(dbDeletedNote);
   } catch (err) {
     res.status(500).json({ error: { name: err.name, message: err.message } });
   }
 });
+
 
 
 // Set the app to listen on PORT

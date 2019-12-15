@@ -4,19 +4,37 @@
 <head>
   <meta charset="UTF-8">
   <title>BBC Sports News Scraper</title>
+
   <style>
-    /* body { background-color: black } */
-    body #wrapper {
-      width: 960px;
+
+.titlebar {
+      background-color: #fcd434;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+
+  form {
+      background-color: #fcd434;
+      width: 80%;
       margin-left: auto;
       margin-right: auto;
-      padding-top: 5%;
+      padding: 20px;
+    }
+
+    body #wrapper {
+      background-color: white;
+      width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
     }
 
     #articles {
       display: inline-block;
       overflow: auto;
-      width: 60%;
+      width: 65%;
       height: 700px;
     }
 
@@ -29,7 +47,7 @@
     input {
       display: block;
       width: 100%;
-      background-color: beige;
+      background-color: whitesmoke;
     }
 
     input {
@@ -51,23 +69,17 @@
 
 <body>
   <!-- Input form -->
-
-  <h1><a href="/scrape"></a>BBC Sports News Scraper</h1>
-  <h2><i>Insert tag line here...</i></h2>
-
-  <form>
-    <div class="form-group">
-      <label>What do you want to search for?</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      <!-- <small id="emailHelp" class="form-text text-muted">The app will look for news including this</small> -->
-    </div>
-    <button type="submit" class="btn btn-primary" id="submit"><a href="/scrape"></a>Submit</button>
-  </form>
-
+<div class="titlebar">
+  <h1><a href="/scrape"></a>BBC Sports Soccer News Scraper</h1>
+  <h2><i>Find and comment on sports news articles</i></h2>
+  <button type="submit" class="btn btn-primary" id="submit"><a href="/scrape"></a>Get the latest headlines</button>
+</div>
 
   <!-- Content divs -->
   <div id="wrapper">
-    <div id="articles"></div>
+    <div id="articles">
+      <h4>Today's headlines:</h4>
+    </div>
     <div id="notes"></div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
